@@ -1,4 +1,5 @@
 import React from 'react';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 class Login extends React.Component {
     state = {
@@ -24,6 +25,11 @@ class Login extends React.Component {
         this.setState({
             isFetching: true
         });
+        axiosWithAuth()
+            .post('/login', this.state.credentials)
+            .then(response => {
+                console.log(response)
+            })
     }
 
     render() {
@@ -37,12 +43,13 @@ class Login extends React.Component {
                         onChange={this.handleChange}
                     />
                     <input
-                        type='text'
+                        type='password'
                         name='password'
                         value={this.state.credentials.password}
                         onChange={this.handleChange}
                     />
                     <button>Log in</button>
+                    {this.state.isFetching && 'logging in'}
                 </form>
             </div>
         )
